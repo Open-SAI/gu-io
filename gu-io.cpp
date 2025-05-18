@@ -1,15 +1,17 @@
 #include <ncurses.h>
 #include <time.h>
 #include <chrono>
+//#include <iostream>
 
 //using namespace std;
 
 int x = 100;
 int y = 10;
 
-bool orientacion = true;
+int orientacion = 1;
+char espiga = '\\';
 
-const int NUM_SECONDS = 2;
+const int NUM_SECONDS = 1;
 
 typedef std::chrono::high_resolution_clock Clock;
 
@@ -21,26 +23,19 @@ void drawscreen(){
 	for (int i = 0; i < y; i++ ){
 		for (int j=0; j < x; j++){
 			if ( i==0 || i == y-1 || j == 0 || j == x-1){
-				printw("#");
+				addch('#');
 			}else{
-				if(orientacion){
-					printw("/");
-				}else{
-					printw("(");
 
-			       	}
-			}		
-		}
+				addch(espiga);
+			}
+		}		
 	}
 	
 	refresh();
 	
-	if(orientacion){
-		orientacion=false;
-	}else{
-		orientacion=true;
-	}
-
+	if(orientacion==1){espiga='|'; orientacion=2; return;}
+	if(orientacion==2){espiga='/'; orientacion=3; return;}
+	if(orientacion==3){espiga='\\'; orientacion=1; return;}
 }
 
 
